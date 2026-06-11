@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0b0f1a;
+      --surface: #131929;
+      --border: #1e2d45;
+      --accent: #3b82f6;
+      --accent2: #06b6d4;
+      --text: #e8edf5;
+      --muted: #7a8ba3;
+      --card: #111827;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 5vw;
+      background: rgba(11, 15, 26, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.3rem;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 5vw 5rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -20%; right: -10%;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(59,130,246,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      border: 1px solid rgba(6,182,212,0.3);
+      padding: 0.3rem 0.8rem; border-radius: 100px;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 800; line-height: 1.05;
+      max-width: 800px;
+      margin-bottom: 1.5rem;
+    }
+    h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: var(--muted); font-size: 1.1rem;
+      max-width: 520px; margin-bottom: 2.5rem;
+    }
+    .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      padding: 0.75rem 1.8rem; border-radius: 8px;
+      font-size: 0.95rem; font-weight: 500;
+      text-decoration: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent); color: #fff;
+      border: none;
+    }
+    .btn-primary:hover { background: #2563eb; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* SECTIONS COMMON */
+    section { padding: 6rem 5vw; }
+    .section-label {
+      font-size: 0.75rem; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent);
+      font-weight: 600; margin-bottom: 0.6rem;
+    }
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; margin-bottom: 1rem;
+    }
+    .section-desc {
+      color: var(--muted); max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ABOUT */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .about-text p { color: var(--muted); margin-bottom: 1rem; }
+    .stat-row { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+    .stat { }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem; font-weight: 800;
+      color: var(--accent);
+    }
+    .stat-lbl { font-size: 0.85rem; color: var(--muted); }
+
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .skill-chip {
+      background: var(--border);
+      color: var(--text); font-size: 0.82rem;
+      padding: 0.35rem 0.9rem; border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .project-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1.2rem;
+    }
+    .project-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem; font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .project-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
+    .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+    .tag {
+      font-size: 0.75rem; padding: 0.2rem 0.6rem;
+      border-radius: 4px; background: rgba(59,130,246,0.12);
+      color: var(--accent2); border: 1px solid rgba(6,182,212,0.2);
+    }
+
+    /* CONTACT */
+    #contact { background: var(--surface); text-align: center; }
+    #contact h2 { margin-bottom: 1rem; }
+    #contact p { color: var(--muted); margin-bottom: 2rem; }
+    .contact-card {
+      max-width: 480px; margin: 0 auto;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem;
+    }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-ico { font-size: 1.3rem; }
+    .contact-info { text-align: left; }
+    .contact-info span { display: block; font-size: 0.75rem; color: var(--muted); }
+    .contact-info a {
+      color: var(--text); text-decoration: none; font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    .contact-info a:hover { color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem 5vw;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.85rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .nav-links { display: none; }
+    }
+
+    /* ANIMATION */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-tag, h1, .hero p, .cta-row {
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-tag { animation-delay: 0.1s; }
+    h1         { animation-delay: 0.2s; }
+    .hero p    { animation-delay: 0.35s; }
+    .cta-row   { animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">Md Nafis</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-tag">Open to Opportunities</div>
+    <h1>Hi, I'm <span>Md Nafis</span> — a Web Developer</h1>
+    <p>I build clean, fast, and accessible web experiences. Passionate about turning ideas into real, working products.</p>
+    <div class="cta-row">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn btn-outline">Contact Me</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-label">About Me</div>
+        <h2>Who I Am</h2>
+        <p>I'm a [Second Year] year student at [Birbhum Institute of Engineering And Technology], studying [CSE]. I love building things for the web — from simple landing pages to interactive apps.</p>
+        <p>When I'm not coding, I enjoy [your hobby], and I'm always looking for new challenges to grow as a developer.</p>
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">5+</div><div class="stat-lbl">Projects Built</div></div>
+          <div class="stat"><div class="stat-num">3+</div><div class="stat-lbl">Technologies</div></div>
+          <div class="stat"><div class="stat-num">2026</div><div class="stat-lbl">Graduation</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:1rem;">Skills</div>
+        <div class="skills-wrap">
+          <span class="skill-chip">HTML</span>
+          <span class="skill-chip">CSS</span>
+          <span class="skill-chip">JavaScript</span>
+          <span class="skill-chip">React</span>
+          <span class="skill-chip">Python</span>
+          <span class="skill-chip">Git & GitHub</span>
+          <span class="skill-chip">Responsive Design</span>
+          <span class="skill-chip">REST APIs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">Work</div>
+    <h2>My Projects</h2>
+    <p class="section-desc">A few things I've built. Each one taught me something new.</p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-icon">🌐</div>
+        <h3>Portfolio Website</h3>
+        <p>This very site — a personal portfolio to showcase my work and skills. Built with pure HTML, CSS, and a bit of animation.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span><span class="tag">CSS</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">📝</div>
+        <h3>To-Do App</h3>
+        <p>A simple task manager with local storage support. Add, complete, and delete tasks — all without a backend.</p>
+        <div class="project-tags">
+          <span class="tag">JavaScript</span><span class="tag">LocalStorage</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🌤️</div>
+        <h3>Weather App</h3>
+        <p>Fetches live weather data using a public API. Search any city and see temperature, humidity, and conditions.</p>
+        <div class="project-tags">
+          <span class="tag">API</span><span class="tag">Fetch</span><span class="tag">JS</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">Get In Touch</div>
+    <h2>Contact Me</h2>
+    <p>Feel free to reach out for collaborations, opportunities, or just a chat!</p>
+    <div class="contact-card">
+      <div class="contact-item">
+        <div class="contact-ico">📧</div>
+        <div class="contact-info">
+          <span>Email</span>
+          <a href="mailto:nafis731126@gmail.com">nafis731126@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-ico">💼</div>
+        <div class="contact-info">
+          <span>LinkedIn</span>
+          <a href="https://linkedin.com/in/www.linkedin.com/in/md-nafis-9a0a0240b" target="_blank">linkedin.com/in/www.linkedin.com/in/md-nafis-9a0a0240b</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-ico">🐙</div>
+        <div class="contact-info">
+          <span>GitHub</span>
+          <a href="https://github.com/nafis731126-blip" target="_blank">github.com/nafis731126-blip</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Made with ❤️ by Md Nafis &nbsp;·&nbsp; 2026</p>
+  </footer>
+
+</body>
+</html>
